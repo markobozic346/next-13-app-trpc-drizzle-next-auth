@@ -1,3 +1,4 @@
+import { isAuth } from "./middlewares/isAuth";
 import { DrizzleAdapter } from "@auth/drizzle-adapter";
 import DiscordProvider from "next-auth/providers/discord";
 import { DefaultSession, NextAuthOptions } from "next-auth";
@@ -15,6 +16,7 @@ declare module "next-auth" {
 export const authOptions: NextAuthOptions = {
   callbacks: {
     session({ session, user }) {
+      console.log("session", session, user);
       if (session.user) {
         session.user.id = user.id;
       }

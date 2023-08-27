@@ -3,7 +3,7 @@ import { fetchRequestHandler } from "@trpc/server/adapters/fetch";
 import { db } from "@/db";
 import { authOptions } from "@/server/auth";
 import { getServerSession } from "next-auth";
-import { appRouter } from "@/server/routers";
+import { appRouter } from "@/server/routers/root";
 
 const handler = async (req: Request) => {
   const session = await getServerSession(authOptions);

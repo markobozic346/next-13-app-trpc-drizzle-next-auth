@@ -1,10 +1,11 @@
 "use client";
 
+import { Session } from "next-auth";
 import { PropsWithChildren } from "react";
 import { SessionProvider } from "next-auth/react";
 
 type Props = {
-  session: any;
+  session: Session;
 };
 
 export default function AuthProvider({
