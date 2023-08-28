@@ -3,6 +3,7 @@
 # env
 .env
 *.sqlite
+*.db
 # dependencies
 /node_modules
 /.pnp

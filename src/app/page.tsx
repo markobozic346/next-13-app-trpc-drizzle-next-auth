@@ -7,7 +7,7 @@ export default function Home() {
   if (session) {
     return (
       <main className="flex min-h-screen flex-col items-center justify-between p-24">
-        Signed in as {session.user.email} <br />
+        Signed in as {session.user.email} {session.user.role} <br />
         <button onClick={() => signOut()}>Sign out</button>
       </main>
     );
