@@ -6,6 +6,17 @@ import {
 } from "drizzle-orm/sqlite-core";
 import type { AdapterAccount } from "@auth/core/adapters";
 
+export const todos = sqliteTable("todo", {
+  id: integer("id").primaryKey().unique(),
+  text: text("text").notNull(),
+  isComplete: integer("isComplete").default(0),
+  userId: text("userId")
+    .notNull()
+    .references(() => users.id, {
+      onDelete: "cascade",
+    }),
+});
+
 export const users = sqliteTable("user", {
   id: text("id").notNull().primaryKey(),
   name: text("name"),
