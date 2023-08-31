@@ -1,4 +1,4 @@
-import { TRPCError, inferAsyncReturnType, initTRPC } from "@trpc/server";
+import { inferAsyncReturnType, initTRPC } from "@trpc/server";
 import { getServerSession } from "next-auth";
 import type { CreateNextContextOptions } from "@trpc/server/adapters/next";
 
