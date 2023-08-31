@@ -1,7 +1,7 @@
 {
   "version": "5",
   "dialect": "sqlite",
-  "id": "61a57041-6ec7-45bf-8bb6-1f0b45a3b6f8",
+  "id": "b2fa67db-5792-4934-afb9-a0d14b2ec39c",
   "prevId": "aaf75112-6a77-478b-8876-a3527e010e71",
   "tables": {
     "account": {
@@ -160,7 +160,7 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "text",
+          "type": "integer",
           "primaryKey": true,
           "notNull": true,
           "autoincrement": false
@@ -176,7 +176,7 @@
           "name": "isComplete",
           "type": "integer",
           "primaryKey": false,
-          "notNull": true,
+          "notNull": false,
           "autoincrement": false,
           "default": 0
         },
@@ -188,7 +188,15 @@
           "autoincrement": false
         }
       },
-      "indexes": {},
+      "indexes": {
+        "todo_id_unique": {
+          "name": "todo_id_unique",
+          "columns": [
+            "id"
+          ],
+          "isUnique": true
+        }
+      },
       "foreignKeys": {
         "todo_userId_user_id_fk": {
           "name": "todo_userId_user_id_fk",
