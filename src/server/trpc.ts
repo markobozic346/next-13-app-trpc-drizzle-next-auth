@@ -1,5 +1,5 @@
-import { inferAsyncReturnType, initTRPC } from "@trpc/server";
 import { getServerSession } from "next-auth";
+import { inferAsyncReturnType, initTRPC } from "@trpc/server";
 import type { CreateNextContextOptions } from "@trpc/server/adapters/next";
 
 import { db } from "@/db";

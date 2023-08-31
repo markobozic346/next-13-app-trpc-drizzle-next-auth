@@ -44,6 +44,14 @@ export const todoRouter = router({
   updateTodo: protectedProcedure
     .input(z.object({ id: z.number(), isComplete: z.boolean() }))
     .mutation(async ({ ctx, input }) => {
+      //admin can update any todo
+      if (ctx.session?.user.role === "ADMIN") {
+        return await ctx.db
+          .update(todos)
+          .set({ isComplete: Number(input.isComplete) })
+          .where(eq(todos.id, input.id));
+      }
+      //update user todo
       return await ctx.db
         .update(todos)
         .set({ isComplete: Number(input.isComplete) })

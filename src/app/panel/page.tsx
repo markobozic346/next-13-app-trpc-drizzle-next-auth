@@ -1,8 +1,8 @@
 import { authOptions } from "@/server/auth";
 import { getServerSession } from "next-auth";
 
-import UserPanel from "./_panels/UserPanel";
-import AdminPanel from "./_panels/AdminPanel";
+import UserPanel from "./_panels/user/UserPanel";
+import AdminPanel from "./_panels/admin/AdminPanel";
 
 import { signInServer } from "@/utils/signInServer";
 
