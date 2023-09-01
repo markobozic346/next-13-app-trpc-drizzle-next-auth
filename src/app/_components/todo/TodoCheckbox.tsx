@@ -9,7 +9,14 @@ type Props = {
 };
 
 const TodoCheckbox = ({ todo }: Props) => {
-  const { mutate } = trpc.todo.updateTodo.useMutation();
+  const utils = trpc.useContext();
+
+  const { mutate } = trpc.todo.updateTodo.useMutation({
+    onSettled: () => {
+      utils.todo.getUserTodos.invalidate();
+      utils.todo.getAllUsersTodos.invalidate();
+    },
+  });
 
   const handleTodoUpdate = () => {
     mutate({
