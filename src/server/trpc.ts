@@ -1,18 +1,11 @@
 import { getServerSession } from "next-auth";
-import { inferAsyncReturnType, initTRPC } from "@trpc/server";
-import type { CreateNextContextOptions } from "@trpc/server/adapters/next";
+import { TRPCError, inferAsyncReturnType, initTRPC } from "@trpc/server";
 
 import { db } from "@/db";
 import { authOptions } from "./auth";
-import { isAuth } from "./middleware/isAuth";
-import { isAdmin } from "./middleware/isAdmin";
 
-export const createContext = async (opts?: CreateNextContextOptions) => {
-  if (!opts?.req || !opts?.res) {
-    return { db, session: null };
-  }
-
-  const session = await getServerSession(opts?.req, opts?.res, authOptions);
+export const createContext = async () => {
+  const session = await getServerSession(authOptions);
 
   return {
     db,
@@ -26,6 +19,27 @@ const t = initTRPC.context<Context>().create();
 export const router = t.router;
 export const middleware = t.middleware;
 
+// middlewares
+export const isAuth = middleware(({ next, ctx }) => {
+  if (!ctx.session?.user.email) {
+    throw new TRPCError({ code: "UNAUTHORIZED", message: "Unauthorized" });
+  }
+
+  return next({
+    ctx,
+  });
+});
+
+export const isAdmin = middleware(({ next, ctx }) => {
+  if (ctx.session?.user.role !== "ADMIN") {
+    throw new TRPCError({ code: "UNAUTHORIZED", message: "Unauthorized" });
+  }
+  return next({
+    ctx,
+  });
+});
+
+//procedures
 export const publicProcedure = t.procedure;
 export const protectedProcedure = t.procedure.use(isAuth);
 export const protectedAdminProcedure = t.procedure.use(isAdmin);
