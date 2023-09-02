@@ -1,4 +1,5 @@
 import MyTodos from "../shared/MyTodos";
+import PanelHeader from "../shared/PanelHeader";
 import AllUsersTodos from "./AllUsersTodos";
 
 import { serverClient } from "@/app/_trpc/serverClient";
@@ -12,7 +13,7 @@ async function AdminPanel() {
 
   return (
     <>
-      <h1 className="mb-8 text-2xl">Welcome admin!</h1>
+      <PanelHeader />
 
       <h2 className="mb-4 mt-16 text-xl">My todos:</h2>
       <MyTodos prefetchedTodos={myTodos} />
