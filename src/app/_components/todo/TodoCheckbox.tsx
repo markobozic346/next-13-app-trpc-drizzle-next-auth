@@ -1,14 +1,17 @@
 "use client";
-import React from "react";
 
-import { Todo } from "@/lib/types";
+import { Checkbox } from "@/components/ui/checkbox";
+import { useToast } from "@/components/ui/use-toast";
+
 import { trpc } from "@/app/_trpc/client";
 
 type Props = {
-  todo: Todo;
+  todoId: number;
+  isComplete: boolean;
 };
 
-const TodoCheckbox = ({ todo }: Props) => {
+const TodoCheckbox = ({ todoId, isComplete }: Props) => {
+  const { toast } = useToast();
   const utils = trpc.useContext();
 
   const { mutate } = trpc.todo.updateTodo.useMutation({
@@ -19,19 +22,30 @@ const TodoCheckbox = ({ todo }: Props) => {
   });
 
   const handleTodoUpdate = () => {
-    mutate({
-      id: todo.id,
-      isComplete: !todo.isComplete,
+    const payload = {
+      id: todoId,
+      isComplete: !isComplete,
+    };
+
+    mutate(payload, {
+      onSuccess: () => {
+        toast({
+          variant: "default",
+          title: "Success",
+          description: "Todo updated!",
+        });
+      },
+      onError: () => {
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: "Something went wrong updating todo",
+        });
+      },
     });
   };
 
-  return (
-    <input
-      type="checkbox"
-      checked={Boolean(todo.isComplete)}
-      onChange={handleTodoUpdate}
-    />
-  );
+  return <Checkbox checked={isComplete} onCheckedChange={handleTodoUpdate} />;
 };
 
 export default TodoCheckbox;
