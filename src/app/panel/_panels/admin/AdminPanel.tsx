@@ -1,14 +1,12 @@
-"use client";
+import AdminTodos from "./AdminTodos";
+import { serverClient } from "@/app/_trpc/serverClient";
 
-import TodoList from "@/app/_components/todo/TodoList";
-import { trpc } from "@/app/_trpc/client";
+async function AdminPanel() {
+  const trpcClient = await serverClient();
 
-function AdminPanel() {
-  const { data } = trpc.todo.getAllUsersTodos.useQuery();
+  const todos = await trpcClient.todo.getAllUsersTodos();
 
-  if (!data) return null;
-
-  return <TodoList todos={data} />;
+  return <AdminTodos initialTodos={todos} />;
 }
 
 export default AdminPanel;
