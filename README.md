@@ -4,13 +4,13 @@
 
 ### ⚠️ THIS PROJECT IS IN ACTIVE DEVELOPMENT !!
 
-Inspired by [T3 stack](https://create.t3.gg/) and Jack Harrington [video](https://www.youtube.com/watch?v=qCLV0Iaq9zU&t=569s), this is and role based auth todo app.
+Inspired by [T3 stack](https://create.t3.gg/) and Jack Harrington [video](https://www.youtube.com/watch?v=qCLV0Iaq9zU&t=569s), this is a role-based auth todo app.
 
 
 ## Features
 
 - ``Auth`` - Discord
-- ``Roles`` - Admin and User, admin can delete or update all notes, user can manipulate only his todos.
+- ``Roles`` - Admin and User, the admin can delete or update all todos, user can manipulate only his todos.
 - ``User and Admin panel`` - each user has dedicated panel with actions
 
 ## Tech features
@@ -44,7 +44,7 @@ NEXTAUTH_SECRET=
 
 ```
 
-for the more details about setting env variables check:
+for more details about setting env variables check:
 
 - [Discord oAuth2 docs](https://discord.com/developers/docs/topics/oauth2) 
 - [next-auth url ](https://next-auth.js.org/getting-started/example#deploying-to-production)
@@ -74,7 +74,7 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 ### Change role
 
-for role changes use drizzle studio in development env:
+for role change in development env use drizzle studio:
 
 ```bash
 
@@ -82,7 +82,7 @@ yarn drizzle-kit studio
 
 ```
 
-navigate to provided url from CLI, select `user` table on the UI, select user and change role to: either ADMIN or USER
+navigate to provided URL from CLI, select the `user` table on the UI, select the user, and change role to either ADMIN or USER
 
 ### Client fetching
 
@@ -133,7 +133,7 @@ located in `src/server/trpc.ts`
 
 ``publicProcedure`` - no restriction <br/>
 ``protectedProcedure``- requires from user to be authenticated <br/>
-``protectedAdminProcedure`` - requires from user to be authenticated AND have admin role <br/>
+``protectedAdminProcedure`` - requires from user to be authenticated AND have an admin role <br/>
 
 ## Learn More
 
