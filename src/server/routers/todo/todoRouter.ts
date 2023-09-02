@@ -1,12 +1,12 @@
 import { z } from "zod";
-import { and, eq } from "drizzle-orm";
+import { and, eq, ne } from "drizzle-orm";
 
 import {
   router,
   protectedProcedure,
   protectedAdminProcedure,
 } from "@/server/trpc";
-import { todos } from "@/db/schema";
+import { todos, users } from "@/db/schema";
 
 export const todoRouter = router({
   createTodo: protectedProcedure
@@ -72,6 +72,21 @@ export const todoRouter = router({
 
   //gets all todos from all users
   getAllUsersTodos: protectedAdminProcedure.query(async ({ ctx }) => {
-    return await ctx.db.select().from(todos);
+    return await ctx.db
+      .select({
+        id: todos.id,
+        text: todos.text,
+        isComplete: todos.isComplete,
+        user: {
+          id: users.id,
+          name: users.name,
+          image: users.image,
+          email: users.email,
+          role: users.role,
+        },
+      })
+      .from(todos)
+      .where(ne(todos.userId, ctx.session?.user.id || ""))
+      .leftJoin(users, eq(todos.userId, users.id));
   }),
 });
