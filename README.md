@@ -1,16 +1,24 @@
 
 
 # Next 13, TRPC, Drizzle, Next-Auth
+
 ### ⚠️ THIS PROJECT IS IN ACTIVE DEVELOPMENT !!
 
-Inspired by [T3 stack](https://create.t3.gg/) and Jack Harrington [video](https://www.youtube.com/watch?v=qCLV0Iaq9zU&t=569s)
+Inspired by [T3 stack](https://create.t3.gg/) and Jack Harrington [video](https://www.youtube.com/watch?v=qCLV0Iaq9zU&t=569s), this is and role based auth todo app.
 
 
-## Features 
+## Features
+
+- ``Auth`` - Discord
+- ``Roles`` - Admin and User, admin can delete or update all notes, user can manipulate only his todos.
+- ``User and Admin panel`` - each user has dedicated panel with actions
+
+## Tech features
 - ``Next.js`` 13 app dir 
 - `tRPC` 
 - ``Drizzle`` ORM with SQLite 
 - ``Next-Auth`` Discord Provider
+- ``UI`` Shadcn UI
 - ``Roles`` Admin and User
 
 ## Try yourself
@@ -22,6 +30,28 @@ npm install
 yarn
 
 ```
+
+### Setup env
+
+Add .env file to the root of the app, and fill env variables
+
+```bash
+DISCORD_CLIENT_ID=
+DISCORD_CLIENT_SECRET=
+
+NEXTAUTH_URL=http://localhost:3000
+NEXTAUTH_SECRET=
+
+```
+
+for the more details about setting env variables check:
+
+- [Discord oAuth2 docs](https://discord.com/developers/docs/topics/oauth2) 
+- [next-auth url ](https://next-auth.js.org/getting-started/example#deploying-to-production)
+- [next-auth secret](https://next-auth.js.org/configuration/options#secret) 
+
+
+### Run the app
 
 Then run the database generation command:
 
@@ -42,14 +72,68 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 ## Usage
 
+### Change role
+
+for role changes use drizzle studio in development env:
+
+```bash
+
+yarn drizzle-kit studio
+
+```
+
+navigate to provided url from CLI, select `user` table on the UI, select user and change role to: either ADMIN or USER
+
 ### Client fetching
 
-Coming soon
+```typescript
+'use client'
+
+import { trpc } from "@/app/_trpc/client";
+
+function ClientComponent(){
+
+    const { data } = trpc.todo.getUserTodos.useQuery()
+
+    return (
+        ...
+    )
+}
+```
 
 ### Server fetching
 
-Coming soon
+```typescript
 
+import { serverClient } from "@/app/_trpc/serverClient";
+
+async function ServerComponent() {
+  const trpcClient = await serverClient();
+
+  const data = await trpcClient.todo.getUserTodos();
+
+return  (
+    ...
+)
+}
+```
+
+### Routers
+
+located in `src/server/routers/root.ts` <br/>
+
+``todoRouter`` - used for todo CRUD operations, with middleware protections and payload validation <br/>
+``userRouter`` - not used, added just for example <br/>
+
+[more about TRPC routers](https://trpc.io/docs/server/routers)
+
+### Middlewares
+
+located in `src/server/trpc.ts`
+
+``publicProcedure`` - no restriction <br/>
+``protectedProcedure``- requires from user to be authenticated <br/>
+``protectedAdminProcedure`` - requires from user to be authenticated AND have admin role <br/>
 
 ## Learn More
 
@@ -60,7 +144,11 @@ To learn more about Next.js, take a look at the following resources:
 - [tRPC Documentation](https://trpc.io/docs/)
 - [Drizzle Documentation](https://orm.drizzle.team/)
 - [Next-Auth Documentation](https://next-auth.js.org/)
+- [Shadcn UI](https://ui.shadcn.com/)
 
+
+## Preview live
+Coming soon
 
 ## Deploy on Vercel
 
