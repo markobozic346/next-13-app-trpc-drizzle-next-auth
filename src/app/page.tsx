@@ -1,5 +1,6 @@
 "use client";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { signIn, signOut, useSession } from "next-auth/react";
 
 import { Button } from "@/components/ui/button";
@@ -10,9 +11,6 @@ export default function Home() {
 
   const router = useRouter();
 
-  const goToPanel = () => {
-    router.push("/panel");
-  };
   if (session) {
     const btnText = session.user.role == "ADMIN" ? "Admin panel" : "User panel";
     return (
@@ -24,7 +22,9 @@ export default function Home() {
           <p>Role: {session.user.role} </p>
 
           <p className="flex gap-4 items-center">
-            <Button onClick={goToPanel}>{btnText}</Button>
+            <Link href={"/panel"}>
+              <Button>{btnText}</Button>
+            </Link>
           </p>
 
           <Button variant="outline" onClick={() => signOut()}>
